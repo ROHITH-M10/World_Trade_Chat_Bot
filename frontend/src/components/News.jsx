@@ -25,6 +25,9 @@ function News() {
 
   return (
     <div className="news-container">
+      <div className="news-main-title">
+        World Trade News
+      </div>
       {news.map((article) => (
         <div key={article.id} className="news-card">
           <div className="news-title">{article.title}</div>

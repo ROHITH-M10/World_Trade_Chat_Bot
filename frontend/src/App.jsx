@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import News from './components/News';
 import Chat from './components/Chat';
+import '../src/styles/style.css';
 
 function App() {
   return (

@@ -1,38 +1,21 @@
-* {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #15202B;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #192734;
-}
-
-/* Global Styles */
-body {
-  background-color: #15202B;
-  color: white;
-  font-size: 1rem;
-}
-
 /* For News Component */
+
+.news-main-title{
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00aaff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .news-container {
-  padding: 20px;
+  font-family: sans-serif;
+  padding: 40px;
 }
 
 .news-card {
-  background-color: #22303C;
-  margin-bottom: 20px;
+  background-color: #ffffff;
+  margin-bottom: 40px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -40,22 +23,22 @@ body {
 
 .news-title {
   font-size: 1.5rem;
-  color: #fff;
+  color: black;
   font-weight: bold;
 }
 
 .news-summary {
   font-size: 1rem;
-  color: #8899A6;
+  color: black;
   margin: 10px 0;
 }
 
 .news-button {
-  background-color: #4A6572;
+  background-color: #00aaff;
   color: white;
   font-size: 1.2rem;
   border: none;
-  padding: 10px 20px;
+  padding: 8px 12px;
   cursor: pointer;
   border-radius: 5px;
 }

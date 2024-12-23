@@ -53,17 +53,19 @@ function Chat() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="Chat">
+        <a href="/" className='back-button'>
+          Back to News
+          </a>
+      <header className="Chat-header">
         <h1>Chat with the Bot</h1>
       </header>
 
       <div className="generate-space">
-        <div className="welcome-sub-heading">
-          <h2>Article Summary</h2>
-          <p>{summary}</p>
-          <h3>Ask the bot a question or say something to start chatting</h3>
-          <p>Enter a prompt and click "Go" to chat with the bot</p>
+        <div className="welcome-sub-heading">   
+          <div className='about-article'>About the Article</div>
+          <div className='summary'>{summary}</div>
+          <p>Enter questions to chat with the bot about the article.</p>
         </div>
         {error && <p className="error-info" style={{ color: 'red' }}>{error}</p>}
 
@@ -72,8 +74,8 @@ function Chat() {
           <div className="chat-history">
             {answers.map((answer, index) => (
               <div key={index} className="chat-item">
-                <p><strong>You:</strong> {answer.question}</p>
-                <p><strong>Bot:</strong> {answer.response}</p>
+                <div className='question'>{answer.question}</div>
+                <div className='answer'>{answer.response}</div>
               </div>
             ))}
           </div>
