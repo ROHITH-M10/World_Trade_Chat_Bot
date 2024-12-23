@@ -1,0 +1,128 @@
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #15202B; 
+
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #192734; 
+
+}
+
+
+img{
+  width: 250px;
+  height: 250px;
+}
+.App-header > h1 {
+  background-color: #192734;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height:10vh;
+}
+
+.welcome-sub-heading{
+  font-size: 1rem;
+  color: #8899A6;
+  padding: 20px 0px;
+}
+
+.generate-space{
+  background-color: #15202B;
+  height: 84vh;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  padding: 10px 0px;
+}
+.prompt{
+
+}
+.prompt .text{
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:end;
+  color: white;
+}
+
+.prompt .text p{
+  background-color: #22303C;
+  padding: 15px 35px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  border-top-right-radius: 0px;
+  margin: 0px 20px;
+  font-size: 1.2rem;
+}
+
+
+.prompt .image{
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:start;
+}
+
+.prompt .image img{
+  margin: 10px 30px 20px;
+}
+
+.prompt-form form{
+  flex-wrap: wrap;
+  width: 100%;
+  height: 6vh;
+  border: solid 0px #22303C;
+  background-color: #22303C;
+  padding: 8px 0px;
+  box-sizing: border-box;
+
+}
+
+.prompt-form input{
+  font-size: 1.2rem;
+  width: 50%;
+  color: rgb(255, 255, 255);
+  padding: 0px 20px;
+  border: solid 0px rgb(222, 115, 115);
+  border-bottom: solid 0px black;
+  background-color: #22303C;
+}
+
+.prompt-form input:focus{
+  outline: none;
+}
+
+.prompt-form button{
+  font-size: 1.2rem;
+  color: black;
+  text-align: start;
+  border-radius: 5px;
+  background-color: white;
+  text-align: center;
+  border: none;
+}
+
+.prompt-form button:hover{
+  background-color: #8899A6;
+}
+
+.error-info{
+  position: absolute;
+  bottom: 0;
+  font-size: 0.6rem;
+  color: red;
+  padding: 2px;
+  border-radius: 0px;
+  width: 20%;
+  box-sizing: border-box;
+  background-color: black;
+}
