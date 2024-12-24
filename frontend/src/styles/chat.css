@@ -48,7 +48,7 @@ body{
   padding: 10px 20px;
   color: white;
 }
-.question{
+.answer{
   background-color: #00aaff;
   width:fit-content;
   padding: 10px 20px;
@@ -57,7 +57,7 @@ body{
   border-top-left-radius: 0px;
 }
 
-.answer{
+.question{
   background-color: #00aaff;
   width:fit-content;
   padding: 10px 20px;
