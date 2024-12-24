@@ -1,9 +1,17 @@
 import sqlite3
 import requests
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from bs4 import BeautifulSoup
-from flask import request
+
+import re
+
+
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
+
+
 from auth_key import API_KEY  # Import API_KEY from auth_key.py
 
 
@@ -57,7 +65,7 @@ def scrape_news():
                 cursor.execute('INSERT INTO news (title, description) VALUES (?, ?)', (title, description))
                 conn.commit()
                 conn.close()
-                print(f"Inserted article: {title}")
+                #print(f"Inserted article: {title}")
 
             except requests.RequestException as e:
                 print(f"Error fetching article from {article_link}: {e}")
@@ -118,7 +126,7 @@ def generate_summary():
                     cursor.execute('UPDATE news SET summary = ? WHERE id = ?', (summary_text, article_id))
                     conn.commit()
                     conn.close()
-                    print(f"Generated summary for article with ID {article_id}")
+                    #print(f"Generated summary for article with ID {article_id}")
                 else:
                     print(f"No summary generated for article with ID {article_id}")
             else:
@@ -229,6 +237,127 @@ def qna_query(payload):
     except requests.exceptions.RequestException as e:
         return {"error": f"Request failed: {str(e)}"}
 
+
+# World Integrated Trade Solution (WITS)
+
+DESCRIPTION = ""
+
+# get and post methods
+
+@app.route('/country-stats', methods=['GET'])
+def get_or_post_country_stats():
+    global DESCRIPTION
+    try:
+        if request.method == 'GET':
+            # Extract parameters from the query string
+            country_code = request.args.get('countryCode')
+            year = request.args.get('year')
+            print(f"GET Request - Country code: {country_code}, Year: {year}")
+
+            if not country_code or not year:
+                return jsonify({"error": "Invalid input"}), 400
+            
+            # Generate the report
+            report = scrape_country_code_and_year(country_code, year)
+            #print(f"Generated report: {report}")
+
+            # Generate summary
+            payload = {
+                "inputs": report,
+                "parameters": {
+                    "max_length": 250,  # Retain more details
+                    "min_length": 100,  # Avoid overly short summaries
+                    "do_sample": True,  # Enable sampling for variability
+                    "temperature": 0.7  # Add controlled randomness
+                }
+            }
+            summary = summary_query(payload)
+            DESCRIPTION = report
+            # print(f"Generated summary: {summary[0].get('summary_text', '')}")
+            return jsonify({"report": summary[0].get("summary_text", "")})
+            #return jsonify({"report": report})
+
+        elif request.method == 'POST':
+            # Extract JSON data from the POST request
+            data = request.get_json()
+            country_code = data.get('countryCode')
+            year = data.get('year')
+            print(f"POST Request - Country code: {country_code}, Year: {year}")
+
+            if not country_code or not year:
+                return jsonify({"error": "Invalid input"}), 400
+
+            # Generate the report
+            report = scrape_country_code_and_year(country_code, year)
+            # print(f"Generated report: {report}")
+
+            # Generate summary
+            # summary = summary_query({"inputs": report})
+            # print(f"Generated summary: {summary[0].get('summary_text', '')}")
+            # return jsonify({"report": summary[0].get("summary_text", "")})
+            return jsonify({"report": report})
+
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+
+        
+        
+def scrape_country_code_and_year(country_code, year):
+    print(f"Scraping data for {country_code} in the year {year}...")
+
+    URL = f"https://wits.worldbank.org/CountryProfile/en/Country/{country_code}/Year/{year}/Summarytext"
+    HEADERS = {'User-agent': 'Mozilla/5.0', 'Accept-Language': 'en-US, en;q=0.5'}
+
+    webpage = requests.get(URL, headers=HEADERS)
+
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(webpage.content, "html.parser")
+
+    full_data = soup.find_all("div", attrs={"class": "tab-content"})
+
+    report = ""
+
+    for data in full_data:
+        cleaned_text = data.text.strip()
+        cleaned_text = re.sub(r"\s+", " ", cleaned_text)  # Remove extra newlines
+        report += cleaned_text + " "  # Add a space for clarity
+
+    # print("Scraped report:")
+    # print(report)
+    return report  # Return plain text, not jsonify
+
+# chat-about-stats
+
+@app.route('/stats-chat', methods=['POST'])
+def chat_about_stats():
+    input = request.json.get("text")   # Get the input from the request
+    global DESCRIPTION
+    print(f"Received input: {input}")
+    # print(f"DESCRIPTION: {DESCRIPTION}")
+
+    if input is None:
+        return jsonify({"error": "Invalid input"}), 400
+    
+    # Fetch the article or content based on the provided ID
+
+
+
+    # Query the Hugging Face API for question-answering
+    payload = {
+        "inputs": {
+            "question": input,
+            "context": DESCRIPTION
+                }
+    }
+    response = qna_query(payload)
+    response = response["answer"] if "answer" in response else "Sorry, I do not understand your question."
+    
+    return jsonify({"reply": response}), 200
+
+
+# End
 def process_news_route():
     try:
         process_news()
