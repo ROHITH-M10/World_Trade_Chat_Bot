@@ -25,6 +25,9 @@ function News() {
 
   return (
     <div className="news-container">
+      <a href="/stats" className='back-button'>
+          Country Stats
+          </a>
       <div className="news-main-title">
         World Trade News
       </div>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import News from './components/News';
-import Chat from './components/Chat';
+import ChatNews from './components/ChatNews';
+import ChatStats from './components/ChatStats';
 import '../src/styles/style.css';
 
 function App() {
@@ -9,7 +10,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<News />} />
-        <Route path="/chat/:id" element={<Chat />} />
+        <Route path="/stats" element={<ChatStats />} />
+        <Route path="/chat/:id" element={<ChatNews/>} />
       </Routes>
     </Router>
   );
